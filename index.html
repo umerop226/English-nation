@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Improve Your English - Active & Passive Voice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .option:hover {
+      background-color: #f0f0f0;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    .next-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .next-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Active & Passive Voice Practice</h1>
+    <div class="question" id="question">Loading question...</div>
+    <div class="options" id="options">
+      <!-- Options will be populated by JavaScript -->
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-button" id="next-button" onclick="loadNextQuestion()">Next Question</button>
+  </div>
+
+  <script>
+    // Sample questions and answers
+    const questions = [
+      {
+        question: "Convert to passive voice: 'The cat chased the mouse.'",
+        options: [
+          "The mouse was chased by the cat.",
+          "The mouse is chased by the cat.",
+          "The mouse chased the cat.",
+          "The cat was chased by the mouse."
+        ],
+        correctAnswer: "The mouse was chased by the cat."
+      },
+      {
+        question: "Convert to active voice: 'The book was read by Sarah.'",
+        options: [
+          "Sarah read the book.",
+          "The book read Sarah.",
+          "Sarah was reading the book.",
+          "The book is read by Sarah."
+        ],
+        correctAnswer: "Sarah read the book."
+      },
+      {
+        question: "Convert to passive voice: 'The chef cooked the meal.'",
+        options: [
+          "The meal was cooked by the chef.",
+          "The meal is cooked by the chef.",
+          "The chef was cooked by the meal.",
+          "The meal cooked the chef."
+        ],
+        correctAnswer: "The meal was cooked by the chef."
+      },
+      {
+        question: "Convert to active voice: 'The letter was written by John.'",
+        options: [
+          "John wrote the letter.",
+          "The letter wrote John.",
+          "John was writing the letter.",
+          "The letter is written by John."
+        ],
+        correctAnswer: "John wrote the letter."
+      },
+      {
+        question: "Convert to passive voice: 'The teacher explained the lesson.'",
+        options: [
+          "The lesson was explained by the teacher.",
+          "The lesson is explained by the teacher.",
+          "The teacher was explained by the lesson.",
+          "The lesson explained the teacher."
+        ],
+        correctAnswer: "The lesson was explained by the teacher."
+      },
+      {
+        question: "Convert to active voice: 'The cake was baked by Mary.'",
+        options: [
+          "Mary baked the cake.",
+          "The cake baked Mary.",
+          "Mary was baking the cake.",
+          "The cake is baked by Mary."
+        ],
+        correctAnswer: "Mary baked the cake."
+      },
+      {
+        question: "Convert to passive voice: 'The storm destroyed the house.'",
+        options: [
+          "The house was destroyed by the storm.",
+          "The house is destroyed by the storm.",
+          "The storm was destroyed by the house.",
+          "The house destroyed the storm."
+        ],
+        correctAnswer: "The house was destroyed by the storm."
+      },
+      {
+        question: "Convert to active voice: 'The movie was directed by Steven Spielberg.'",
+        options: [
+          "Steven Spielberg directed the movie.",
+          "The movie directed Steven Spielberg.",
+          "Steven Spielberg was directing the movie.",
+          "The movie is directed by Steven Spielberg."
+        ],
+        correctAnswer: "Steven Spielberg directed the movie."
+      },
+      {
+        question: "Convert to passive voice: 'The students solved the problem.'",
+        options: [
+          "The problem was solved by the students.",
+          "The problem is solved by the students.",
+          "The students were solved by the problem.",
+          "The problem solved the students."
+        ],
+        correctAnswer: "The problem was solved by the students."
+      },
+      {
+        question: "Convert to active voice: 'The song was sung by singer.'",
+        options: [
+          "singer sang the song.",
+          "The song sang singer.",
+          "singer was singing the song.",
+          "The song is sung by singer."
+        ],
+        correctAnswer: "singer sang the song."
+      },
+      {
+        question: "Convert to passive voice: 'The company launched a new product.'",
+        options: [
+          "A new product was launched by the company.",
+          "A new product is launched by the company.",
+          "The company was launched by a new product.",
+          "A new product launched the company."
+        ],
+        correctAnswer: "A new product was launched by the company."
+      },
+      {
+        question: "Convert to active voice: 'The painting was admired by everyone.'",
+        options: [
+          "Everyone admired the painting.",
+          "The painting admired everyone.",
+          "Everyone was admiring the painting.",
+          "The painting is admired by everyone."
+        ],
+        correctAnswer: "Everyone admired the painting."
+      },
+      {
+        question: "Convert to passive voice: 'The dog bit the postman.'",
+        options: [
+          "The postman was bitten by the dog.",
+          "The postman is bitten by the dog.",
+          "The dog was bitten by the postman.",
+          "The postman bit the dog."
+        ],
+        correctAnswer: "The postman was bitten by the dog."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    // Function to shuffle array randomly
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Function to load the current question
+    function loadQuestion() {
+      const questionData = questions[currentQuestionIndex];
+      document.getElementById("question").textContent = questionData.question;
+
+      // Shuffle options and keep track of the correct answer
+      const shuffledOptions = shuffleArray([...questionData.options]);
+      const correctAnswer = questionData.correctAnswer;
+
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.innerHTML = ""; // Clear previous options
+
+      shuffledOptions.forEach((option) => {
+        const optionElement = document.createElement("div");
+        optionElement.classList.add("option");
+        optionElement.textContent = option;
+        optionElement.addEventListener("click", () => checkAnswer(option, correctAnswer));
+        optionsContainer.appendChild(optionElement);
+      });
+
+      document.getElementById("feedback").textContent = "";
+    }
+
+    // Function to check the selected answer
+    function checkAnswer(selectedAnswer, correctAnswer) {
+      const feedbackElement = document.getElementById("feedback");
+      if (selectedAnswer === correctAnswer) {
+        feedbackElement.textContent = "Correct! 🎉";
+        feedbackElement.className = "feedback correct";
+      } else {
+        feedbackElement.textContent = `Incorrect. The correct answer is: "${correctAnswer}"`;
+        feedbackElement.className = "feedback incorrect";
+      }
+    }
+
+    // Function to load the next question
+    function loadNextQuestion() {
+      currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+      loadQuestion();
+    }
+
+    // Load the first question when the page loads
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>
